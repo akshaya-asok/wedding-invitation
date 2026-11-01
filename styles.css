@@ -245,7 +245,7 @@ body {
 
 .hero-word {
   font-family: var(--font-cormorant-infant);
-  font-size: 90px;
+  font-size: 80px;
   font-weight: 400;
   color: var(--color-gold-title);
   text-align: center;
@@ -1486,7 +1486,7 @@ body {
   }
 
   .hero-word {
-    font-size: 55px;
+    font-size: 45px;
   }
 
   .hero-structure {
