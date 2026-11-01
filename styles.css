@@ -655,7 +655,8 @@ body {
 }
 
 /* ==========================================================================
-   STICKY SCROLL-TRANSLATED CTA BLOCKS (#location, #rsvp, #instagram)
+   STICKY SCROLL-TRANSLATED CTA BLOCKS — ROTATING MANDALA MEDALLIONS
+   (#location, #rsvp, #instagram)
    ========================================================================== */
 .cta-sticky-section {
   position: sticky;
@@ -671,7 +672,7 @@ body {
 }
 
 .cta-location-section {
-  padding: 219px 0 653px;
+  padding: 140px 0 580px;
 }
 
 .cta-rsvp-section {
@@ -679,7 +680,7 @@ body {
 }
 
 .cta-instagram-section {
-  padding: 0 0 210px;
+  padding: 0 0 240px;
 }
 
 .cta-scroll-mover {
@@ -693,82 +694,159 @@ body {
   transform: translate3d(0, var(--cta-scroll-y, 0px), 0);
 }
 
+/* Mandala Medallion Container (614x614 on Desktop/Tablet) */
+.mandala-medallion {
+  position: relative;
+  width: 614px;
+  height: 614px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Layer 1: Rotating Outer Mandala Ring (z-index: 0) */
+.mandala-ring-outer {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+  will-change: transform;
+  transform: rotate(var(--mandala-rot, 0deg));
+}
+
+.mandala-ring-outer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layer 2: Static Inner Medallion Circle (z-index: 1) */
+.mandala-circle-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 471px;
+  height: 471px;
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+
+.mandala-circle-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layer 3: Centered Text & Action Icon Stack (z-index: 2) */
+.mandala-content {
+  position: absolute;
+  top: 58.5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 321px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
 .cta-text-block {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 36px;
-  padding: 17px 20px 30px;
+  gap: 18px;
+  width: 100%;
+  padding: 0;
   text-align: center;
 }
 
 .cta-headline {
-  font-family: var(--font-cormorant-unicase);
-  font-size: 60px;
+  font-family: var(--font-cormorant-upright);
+  font-size: 50px;
   font-weight: 400;
   letter-spacing: -0.03em;
-  line-height: 0.9;
-  color: var(--color-white);
+  line-height: 0.84;
+  color: #ac9545;
   white-space: pre-line;
 }
 
-.cta-subtext {
-  font-family: var(--font-aboreto);
-  font-size: 20px;
-  font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.5;
-  color: var(--color-white-80);
+.mandala-location .cta-headline {
+  line-height: 0.74;
 }
 
-/* Pulsing Double-Ring CTA Button (Button 4 / .cta-ring-button) */
-.cta-ring-button {
+.cta-subtext {
+  font-family: var(--font-cormorant);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: #ac9545;
+}
+
+/* Color Themes for Each Mandala Medallion */
+.mandala-location .cta-headline,
+.mandala-location .cta-subtext {
+  color: rgb(172, 149, 69);
+}
+
+.mandala-rsvp .cta-headline,
+.mandala-rsvp .cta-subtext {
+  color: rgb(12, 72, 96);
+}
+
+.mandala-instagram .cta-headline,
+.mandala-instagram .cta-subtext {
+  color: rgb(254, 246, 209);
+}
+
+/* Clickable Action Icon Button Inside Medallion */
+.mandala-action-btn {
   position: relative;
-  width: 127px;
-  height: 99px;
-  display: flex;
+  width: 45px;
+  height: 48px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   text-decoration: none;
   cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), filter 0.25s ease;
 }
 
-.cta-ring-outer {
-  position: absolute;
-  top: 0;
-  left: calc(50% - 49.5px);
-  width: 99px;
-  height: 99px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  animation: ringPulseRotate 1s linear infinite alternate;
-  will-change: transform;
+.mandala-action-btn-whatsapp {
+  width: 52px;
+  height: 52px;
 }
 
-.cta-ring-inner {
-  position: absolute;
-  top: 17px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 66px;
-  height: 66px;
-  border: 9px solid #ffffff;
-  border-radius: 50%;
-  transition: transform 0.25s ease;
+.mandala-action-btn-instagram {
+  width: 46px;
+  height: 46px;
 }
 
-.cta-ring-button:hover .cta-ring-inner {
-  transform: translateX(-50%) scale(1.08);
+.mandala-action-btn:hover {
+  transform: scale(1.12);
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.22));
 }
 
-@keyframes ringPulseRotate {
-  0% {
-    transform: rotate(0deg) scale(1);
-  }
-  100% {
-    transform: rotate(360deg) scale(1.1);
-  }
+.mandala-action-btn:active {
+  transform: scale(0.95);
+}
+
+.mandala-action-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 /* ==========================================================================
@@ -1522,15 +1600,32 @@ body {
   }
 
   .cta-location-section {
-    padding: 0 0 610px;
+    padding: 80px 0 420px;
+  }
+
+  .mandala-medallion {
+    width: 520px;
+    height: 520px;
+  }
+
+  .mandala-circle-inner {
+    width: 390px;
+    height: 390px;
+  }
+
+  .mandala-content {
+    width: 270px;
+    top: 58%;
+    gap: 10px;
   }
 
   .cta-text-block {
-    padding: 200px 16px 44px;
+    padding: 0;
+    gap: 14px;
   }
 
   .cta-headline {
-    font-size: 50px;
+    font-size: 44px;
   }
 
   .cta-subtext {

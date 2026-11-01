@@ -111,11 +111,14 @@ window.WEDDING_CONFIG = {
     },
   ],
 
-  // 6. Section 1 CTA: Venue Route
+  // 6. Section 1 CTA: Venue Route (Rotating Mandala Medallion — Gold Theme)
   locationCta: {
     headline: "See the\nroute",
     subtext: "Click to open the map",
     url: "https://maps.google.com",
+    ringImage: "assets/mandala-ring-location.png",
+    innerImage: "assets/mandala-inner-location.png",
+    iconImage: "assets/icon-map-cta.png",
   },
 
   // 7. Section 2: Meet the Bride and Groom & Ornate Mirror Slideshow
@@ -137,6 +140,9 @@ window.WEDDING_CONFIG = {
       headline: "Please\nrsvp",
       subtext: "Click to message on WhatsApp",
       url: "https://wa.me/919999999999?text=Hi!%20I%20would%20love%20to%20RSVP%20for%20the%20wedding!",
+      ringImage: "assets/mandala-ring-rsvp.png",
+      innerImage: "assets/mandala-inner-rsvp.png",
+      iconImage: "assets/icon-whatsapp-cta.png",
     },
   },
 
@@ -172,6 +178,9 @@ window.WEDDING_CONFIG = {
       headline: "Follow the\naction",
       subtext: "Click to open our Instagram page",
       url: "https://instagram.com",
+      ringImage: "assets/mandala-ring-instagram.png",
+      innerImage: "assets/mandala-inner-instagram.png",
+      iconImage: "assets/icon-instagram-cta.png",
     },
   },
 

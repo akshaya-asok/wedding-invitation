@@ -99,14 +99,20 @@
         .join("");
     }
 
-    // Location CTA
+    // Location CTA (Rotating Mandala Medallion 1)
     if (CFG.locationCta) {
       setText("cta-location-headline", CFG.locationCta.headline);
       setText("cta-location-subtext", CFG.locationCta.subtext);
       setAttr("cta-location-btn", "href", CFG.locationCta.url);
+      if (CFG.locationCta.ringImage)
+        setAttr("cta-location-ring-img", "src", CFG.locationCta.ringImage);
+      if (CFG.locationCta.innerImage)
+        setAttr("cta-location-inner-img", "src", CFG.locationCta.innerImage);
+      if (CFG.locationCta.iconImage)
+        setAttr("cta-location-icon-img", "src", CFG.locationCta.iconImage);
     }
 
-    // Couple Section & RSVP CTA
+    // Couple Section & RSVP CTA (Rotating Mandala Medallion 2)
     if (CFG.coupleSection) {
       setText("couple-heading-top", CFG.coupleSection.headingTop);
       setText("couple-heading-bottom", CFG.coupleSection.headingBottom);
@@ -116,10 +122,16 @@
         setText("cta-rsvp-headline", CFG.coupleSection.rsvpCta.headline);
         setText("cta-rsvp-subtext", CFG.coupleSection.rsvpCta.subtext);
         setAttr("cta-rsvp-btn", "href", CFG.coupleSection.rsvpCta.url);
+        if (CFG.coupleSection.rsvpCta.ringImage)
+          setAttr("cta-rsvp-ring-img", "src", CFG.coupleSection.rsvpCta.ringImage);
+        if (CFG.coupleSection.rsvpCta.innerImage)
+          setAttr("cta-rsvp-inner-img", "src", CFG.coupleSection.rsvpCta.innerImage);
+        if (CFG.coupleSection.rsvpCta.iconImage)
+          setAttr("cta-rsvp-icon-img", "src", CFG.coupleSection.rsvpCta.iconImage);
       }
     }
 
-    // Things to Know Section & Instagram CTA
+    // Things to Know Section & Instagram CTA (Rotating Mandala Medallion 3)
     if (CFG.thingsToKnow) {
       setText("things-heading-top", CFG.thingsToKnow.headingTop);
       setText("things-heading-bottom", CFG.thingsToKnow.headingBottom);
@@ -147,6 +159,12 @@
         setText("cta-instagram-headline", CFG.thingsToKnow.instagramCta.headline);
         setText("cta-instagram-subtext", CFG.thingsToKnow.instagramCta.subtext);
         setAttr("cta-instagram-btn", "href", CFG.thingsToKnow.instagramCta.url);
+        if (CFG.thingsToKnow.instagramCta.ringImage)
+          setAttr("cta-instagram-ring-img", "src", CFG.thingsToKnow.instagramCta.ringImage);
+        if (CFG.thingsToKnow.instagramCta.innerImage)
+          setAttr("cta-instagram-inner-img", "src", CFG.thingsToKnow.instagramCta.innerImage);
+        if (CFG.thingsToKnow.instagramCta.iconImage)
+          setAttr("cta-instagram-icon-img", "src", CFG.thingsToKnow.instagramCta.iconImage);
       }
     }
 
@@ -393,7 +411,7 @@
   }
 
   /* ==========================================================================
-     3. HERO ENTRANCE & SCROLL PARALLAX + STICKY CTA SCROLL TRANSFORMS
+     3. HERO ENTRANCE & SCROLL PARALLAX + STICKY CTA & ROTATING MANDALA MEDALLIONS
      ========================================================================== */
   function initHeroAndScrollEffects() {
     const sky2 = document.getElementById("hero-sky-2");
@@ -402,6 +420,13 @@
     const heroWords = document.querySelectorAll(".hero-word");
     const coupleContainer = document.getElementById("hero-couple-container");
     const ctaSections = document.querySelectorAll(".cta-sticky-section");
+    const mandalaRings = document.querySelectorAll("[data-mandala-ring]");
+
+    // Store per-medallion scroll rotation state (from Framer's onScroll: 1002deg -> 0deg)
+    const mandalaScrollState = new WeakMap();
+    mandalaRings.forEach((ring) => {
+      mandalaScrollState.set(ring, 0);
+    });
 
     // Trigger Hero entrance animations on next frame
     requestAnimationFrame(() => {
@@ -413,7 +438,7 @@
       });
     });
 
-    // Scroll Parallax for Couple Names & Scroll-Linked Y Offset for Sticky CTAs
+    // Scroll Parallax for Couple Names & Scroll-Linked Transforms for Sticky Mandala CTAs
     function updateScrollTransforms() {
       const scrollY = window.scrollY || window.pageYOffset;
       const vh = window.innerHeight || 800;
@@ -428,24 +453,70 @@
         );
       }
 
-      // Sticky CTA scroll-linked translation (replicates Framer v2 scroll transform)
+      // Sticky CTA scroll-linked translation & scroll-linked mandala rotation
       const maxTranslate = isMobile ? 280 : 380;
       ctaSections.forEach((sec) => {
         const mover = sec.querySelector(".cta-scroll-mover");
-        if (!mover) return;
+        const ring = sec.querySelector("[data-mandala-ring]");
         const rect = sec.getBoundingClientRect();
         // Progress from when section top enters bottom of viewport to when it leaves top
-        const totalTravel = vh + rect.height;
+        const totalTravel = Math.max(1, vh + rect.height);
         const currentTravel = vh - rect.top;
         const progress = Math.max(0, Math.min(1, currentTravel / totalTravel));
-        const yOffset = progress * maxTranslate;
-        mover.style.setProperty("--cta-scroll-y", `${yOffset.toFixed(1)}px`);
+
+        if (mover) {
+          const yOffset = progress * maxTranslate;
+          mover.style.setProperty("--cta-scroll-y", `${yOffset.toFixed(1)}px`);
+        }
+
+        if (ring) {
+          // Replicates Framer Motion onScroll rotation (0deg <-> 240deg across section scroll)
+          const scrollDeg = (1 - progress) * 240;
+          mandalaScrollState.set(ring, scrollDeg);
+        }
       });
+    }
+
+    // Continuous 10-second ease-in-out mirror loop (0deg <-> 365deg) + scroll rotation
+    // Exact port of Framer Mountain mandala animation:
+    //   transition: { duration: 10, ease: [0.44, 0, 0.56, 1], repeat: Infinity, repeatType: "mirror" }
+    const LOOP_DURATION_MS = 10000;
+    const MAX_LOOP_DEG = 365;
+    const startTime = performance.now();
+
+    function easeInOutMandala(t) {
+      // Smooth cubic-bezier(0.44, 0, 0.56, 1) approximation
+      return t < 0.5
+        ? 2 * t * t * (1.15 - 0.3 * t)
+        : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    function tickMandalaRings(now) {
+      const elapsed = Math.max(0, now - startTime);
+      const cycle = Math.floor(elapsed / LOOP_DURATION_MS);
+      const rawPhase = (elapsed % LOOP_DURATION_MS) / LOOP_DURATION_MS;
+      // Mirror ping-pong: even cycles go 0 -> 1, odd cycles go 1 -> 0
+      const mirroredPhase = cycle % 2 === 0 ? rawPhase : 1 - rawPhase;
+      // Smooth sine/bezier ease-in-out curve in [0, 1]
+      const eased = 0.5 - 0.5 * Math.cos(mirroredPhase * Math.PI);
+      const loopDeg = eased * MAX_LOOP_DEG;
+
+      mandalaRings.forEach((ring) => {
+        const scrollDeg = mandalaScrollState.get(ring) || 0;
+        const totalDeg = loopDeg + scrollDeg;
+        ring.style.setProperty("--mandala-rot", `${totalDeg.toFixed(2)}deg`);
+      });
+
+      requestAnimationFrame(tickMandalaRings);
     }
 
     window.addEventListener("scroll", updateScrollTransforms, { passive: true });
     window.addEventListener("resize", updateScrollTransforms, { passive: true });
     updateScrollTransforms();
+
+    if (mandalaRings.length > 0) {
+      requestAnimationFrame(tickMandalaRings);
+    }
   }
 
   /* ==========================================================================
