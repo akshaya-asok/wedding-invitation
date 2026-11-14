@@ -312,25 +312,16 @@ body {
   transition: transform 5s cubic-bezier(0.16, 1.08, 0.3, 1);
 }
 
-/* Falling Petals Canvas Container */
+/* Falling Petals Canvas Container (Immediate top shower, no entrance delay) */
 .petals-canvas-container {
   position: absolute;
-  top: -360px;
+  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: auto;
-  min-height: 1100px;
+  height: 1550px;
   z-index: 10;
   pointer-events: none;
   overflow: hidden;
-  will-change: transform;
-  transform: translate3d(0, -710px, 0);
-}
-
-.petals-canvas-container.is-entered {
-  transform: translate3d(0, 0, 0);
-  transition: transform 5s cubic-bezier(0.16, 1.08, 0.3, 1);
 }
 
 .petals-canvas-container canvas {
@@ -343,7 +334,7 @@ body {
 }
 
 /* ==========================================================================
-   SECTION 1 PART B: INVITE & EVENTS (.invite-and-events)
+   SECTION 1 PART B: UNIFIED MANDALA MEDALLIONS SECTION (.invite-and-events)
    ========================================================================== */
 .invite-and-events {
   position: relative;
@@ -353,10 +344,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 3.8% 0 210px;
-  overflow: visible;
+  justify-content: flex-start;
+  gap: 70px;
+  padding: calc(3.8% + 60px) 0 100px;
+  overflow: clip;
 }
 
 .invite-block {
@@ -661,8 +652,8 @@ body {
    (#location, #rsvp, #instagram)
    ========================================================================== */
 .cta-sticky-section {
-  position: sticky;
-  top: 10px;
+  position: relative;
+  top: auto;
   z-index: 2;
   width: 100%;
   display: flex;
@@ -670,19 +661,14 @@ body {
   align-items: center;
   justify-content: flex-start;
   gap: 10px;
+  padding: 0;
   overflow: visible;
 }
 
-.cta-location-section {
-  padding: 140px 0 420px;
-}
-
-.cta-rsvp-section {
-  padding: 140px 0 340px;
-}
-
+.cta-location-section,
+.cta-rsvp-section,
 .cta-instagram-section {
-  padding: 140px 0 240px;
+  padding: 0;
 }
 
 .cta-scroll-mover {
@@ -692,8 +678,6 @@ body {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  will-change: transform;
-  transform: translate3d(0, var(--cta-scroll-y, 0px), 0);
 }
 
 /* Mandala Medallion Container (614x614 on Desktop/Tablet) */
@@ -1448,7 +1432,7 @@ body {
   }
 
   .cta-instagram-section {
-    padding-bottom: 240px;
+    padding-bottom: 0;
   }
 
   .breaker-ship-3 {
@@ -1499,15 +1483,14 @@ body {
   }
 
   .petals-canvas-container {
-    top: -260px;
-    bottom: 0;
-    height: auto;
-    min-height: 900px;
+    top: 0;
+    height: 1200px;
   }
 
   .invite-and-events {
     margin-top: -9.2%;
-    padding: 9.2% 0 130px;
+    padding: calc(9.2% + 36px) 0 65px;
+    gap: 36px;
     overflow: clip;
   }
 
@@ -1602,8 +1585,11 @@ body {
     font-size: 18px;
   }
 
-  .cta-location-section {
-    padding: 80px 0 420px;
+  .cta-location-section,
+  .cta-rsvp-section,
+  .cta-instagram-section {
+    padding: 0;
+    top: auto;
   }
 
   .mandala-medallion {
@@ -1688,11 +1674,6 @@ body {
     left: calc(50.0873% - 132px);
   }
 
-  .cta-rsvp-section {
-    padding: 80px 0 160px;
-    top: 50px;
-  }
-
   .breaker-ship-2 {
     height: 76px;
     padding: 0;
@@ -1737,11 +1718,6 @@ body {
 
   .thing-text {
     font-size: 18px;
-  }
-
-  .cta-instagram-section {
-    padding: 80px 0 160px;
-    top: 50px;
   }
 
   .footer-section {

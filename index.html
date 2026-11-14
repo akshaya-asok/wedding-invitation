@@ -14,6 +14,7 @@
     href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant+Infant:wght@400&family=Cormorant+Unicase:wght@400&family=Cormorant+Upright:wght@400;700&family=Cormorant:wght@400;600&family=Gotu&family=Manrope:wght@600&family=Yaldevi:wght@400&display=swap"
     rel="stylesheet" />
 
+  <link rel="preload" as="image" href="assets/petal.png" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -75,7 +76,12 @@
           </div>
         </div>
 
-        <!-- Architectural Palace Structure + 240Hz Falling Petals Canvas -->
+        <!-- 240Hz Falling Petals Canvas (Starts showering immediately from top) -->
+        <div id="petals-canvas-container" class="petals-canvas-container">
+          <canvas id="petals-canvas"></canvas>
+        </div>
+
+        <!-- Architectural Palace Structure -->
         <div id="hero-structure" class="hero-structure">
           <div class="bg-wrapper">
             <picture>
@@ -83,24 +89,20 @@
               <img src="assets/palace-desktop.png" alt="Wedding Palace Illustration" decoding="async" />
             </picture>
           </div>
-
-          <div id="petals-canvas-container" class="petals-canvas-container">
-            <canvas id="petals-canvas"></canvas>
-          </div>
         </div>
 
-        <!-- Mandala Design 1: Location CTA -->
+        <!-- Unified Mandala Medallions Section with Single Continuous dream.png Background -->
         <div class="invite-and-events">
-          <!-- Dream Section Background -->
+          <!-- Single Continuous Dream Background Layer -->
           <div class="bg-wrapper">
             <img src="assets/dream.png" alt="" decoding="async" />
           </div>
 
-          <!-- Sticky Scroll-Translated CTA: Rotating Mandala Medallion (See the Route) -->
+          <!-- Mandala Design 1: Location CTA (See the Route) -->
           <div id="location" class="cta-sticky-section cta-location-section">
             <div class="cta-scroll-mover">
               <div class="mandala-medallion mandala-location">
-                <!-- Layer 1: Rotating Outer Mandala Ring (10s ease-in-out mirror + scroll rotation) -->
+                <!-- Layer 1: Rotating Outer Mandala Ring -->
                 <div class="mandala-ring-outer" data-mandala-ring>
                   <img id="cta-location-ring-img" src="assets/mandala-ring-location.png" alt="" loading="lazy"
                     decoding="async" />
@@ -121,74 +123,56 @@
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- ==================================================================
-           SECTION 2: MANDALA DESIGN 2 (RSVP ON WHATSAPP)
-           ================================================================== -->
-      <section class="section-2" aria-label="RSVP">
-        <div class="bg-wrapper">
-          <img src="assets/dream.png" alt="" loading="lazy" decoding="async" />
-        </div>
-
-        <!-- Sticky Scroll-Translated CTA: Rotating Mandala Medallion (RSVP on WhatsApp) -->
-        <div id="rsvp" class="cta-sticky-section cta-rsvp-section">
-          <div class="cta-scroll-mover">
-            <div class="mandala-medallion mandala-rsvp">
-              <!-- Layer 1: Rotating Outer Mandala Ring (10s ease-in-out mirror + scroll rotation) -->
-              <div class="mandala-ring-outer" data-mandala-ring>
-                <img id="cta-rsvp-ring-img" src="assets/mandala-ring-rsvp.png" alt="" loading="lazy" decoding="async" />
-              </div>
-              <!-- Layer 2: Static Inner Medallion Circle -->
-              <div class="mandala-circle-inner">
-                <img id="cta-rsvp-inner-img" src="assets/mandala-inner-rsvp.png" alt="" loading="lazy"
-                  decoding="async" />
-              </div>
-              <!-- Layer 3: Centered Text & Action Link -->
-              <div class="mandala-content">
-                <a id="cta-rsvp-btn" class="cta-text-block cta-text-link"
-                  href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
-                  aria-label="Click to RSVP on WhatsApp">
-                  <h2 id="cta-rsvp-headline" class="cta-headline">Please&#10;rsvp</h2>
-                  <p id="cta-rsvp-subtext" class="cta-subtext">Click to message on WhatsApp</p>
-                </a>
+          <!-- Mandala Design 2: RSVP on WhatsApp -->
+          <div id="rsvp" class="cta-sticky-section cta-rsvp-section">
+            <div class="cta-scroll-mover">
+              <div class="mandala-medallion mandala-rsvp">
+                <!-- Layer 1: Rotating Outer Mandala Ring -->
+                <div class="mandala-ring-outer" data-mandala-ring>
+                  <img id="cta-rsvp-ring-img" src="assets/mandala-ring-rsvp.png" alt="" loading="lazy" decoding="async" />
+                </div>
+                <!-- Layer 2: Static Inner Medallion Circle -->
+                <div class="mandala-circle-inner">
+                  <img id="cta-rsvp-inner-img" src="assets/mandala-inner-rsvp.png" alt="" loading="lazy"
+                    decoding="async" />
+                </div>
+                <!-- Layer 3: Centered Text & Action Link -->
+                <div class="mandala-content">
+                  <a id="cta-rsvp-btn" class="cta-text-block cta-text-link"
+                    href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
+                    aria-label="Click to RSVP on WhatsApp">
+                    <h2 id="cta-rsvp-headline" class="cta-headline">Please&#10;rsvp</h2>
+                    <p id="cta-rsvp-subtext" class="cta-subtext">Click to message on WhatsApp</p>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <!-- ==================================================================
-           SECTION 3: MANDALA DESIGN 3 (INSTAGRAM CTA)
-           ================================================================== -->
-      <section class="section-3" aria-label="Instagram">
-        <div class="bg-wrapper">
-          <img src="assets/dream.png" alt="" loading="lazy" decoding="async" />
-        </div>
-
-        <!-- Sticky Scroll-Translated CTA: Rotating Mandala Medallion (Instagram) -->
-        <div id="instagram" class="cta-sticky-section cta-instagram-section">
-          <div class="cta-scroll-mover">
-            <div class="mandala-medallion mandala-instagram">
-              <!-- Layer 1: Rotating Outer Mandala Ring (10s ease-in-out mirror + scroll rotation) -->
-              <div class="mandala-ring-outer" data-mandala-ring>
-                <img id="cta-instagram-ring-img" src="assets/mandala-ring-instagram.png" alt="" loading="lazy"
-                  decoding="async" />
-              </div>
-              <!-- Layer 2: Static Inner Medallion Circle -->
-              <div class="mandala-circle-inner">
-                <img id="cta-instagram-inner-img" src="assets/mandala-inner-instagram.png" alt="" loading="lazy"
-                  decoding="async" />
-              </div>
-              <!-- Layer 3: Centered Text & Action Link -->
-              <div class="mandala-content">
-                <a id="cta-instagram-btn" class="cta-text-block cta-text-link"
-                  href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                  aria-label="Open our Instagram page">
-                  <h2 id="cta-instagram-headline" class="cta-headline">Follow the&#10;action</h2>
-                  <p id="cta-instagram-subtext" class="cta-subtext">Click to open our Instagram page</p>
-                </a>
+          <!-- Mandala Design 3: Instagram CTA -->
+          <div id="instagram" class="cta-sticky-section cta-instagram-section">
+            <div class="cta-scroll-mover">
+              <div class="mandala-medallion mandala-instagram">
+                <!-- Layer 1: Rotating Outer Mandala Ring -->
+                <div class="mandala-ring-outer" data-mandala-ring>
+                  <img id="cta-instagram-ring-img" src="assets/mandala-ring-instagram.png" alt="" loading="lazy"
+                    decoding="async" />
+                </div>
+                <!-- Layer 2: Static Inner Medallion Circle -->
+                <div class="mandala-circle-inner">
+                  <img id="cta-instagram-inner-img" src="assets/mandala-inner-instagram.png" alt="" loading="lazy"
+                    decoding="async" />
+                </div>
+                <!-- Layer 3: Centered Text & Action Link -->
+                <div class="mandala-content">
+                  <a id="cta-instagram-btn" class="cta-text-block cta-text-link"
+                    href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+                    aria-label="Open our Instagram page">
+                    <h2 id="cta-instagram-headline" class="cta-headline">Follow the&#10;action</h2>
+                    <p id="cta-instagram-subtext" class="cta-subtext">Click to open our Instagram page</p>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

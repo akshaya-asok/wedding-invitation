@@ -199,7 +199,7 @@
         particleSize: 4,
         speed: 0.5,
         rotationSpeed: 5,
-        fadeDuration: 2,
+        fadeDuration: 0.35,
         density: 3,
       },
       CFG.petals || {}
@@ -210,10 +210,13 @@
 
     let spriteImg = null;
     const img = new Image();
-    img.src = pCfg.spriteSrc;
     img.onload = () => {
       spriteImg = img;
     };
+    img.src = pCfg.spriteSrc;
+    if (img.complete && img.naturalWidth > 0) {
+      spriteImg = img;
+    }
 
     let dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
     let width = 800;
@@ -235,10 +238,11 @@
     function spawnParticles(w, h, count) {
       const list = [];
       const rotFactor = (pCfg.rotationSpeed * 2.25 * Math.PI) / 180;
+      const fullFade = Math.max(0.001, pCfg.fadeDuration);
       for (let i = 0; i < count; i++) {
         const baseVel = 44.94 * pCfg.speed * pCfg.density;
         const x = Math.random() * w;
-        const y = Math.random() * h;
+        const y = -10 + Math.random() * (h * 0.85);
         const rot = Math.random() * Math.PI * 2;
         list.push({
           x,
@@ -252,7 +256,7 @@
           rotation: rot,
           prevRotation: rot,
           rotationSpeed: (Math.random() * 0.6 + 0.7) * rotFactor,
-          fade: Math.random() * Math.max(0.001, pCfg.fadeDuration),
+          fade: fullFade,
           windPhase: Math.random() * Math.PI * 2,
           windSpeed: Math.random() * 0.06 + 0.02,
         });
@@ -293,7 +297,7 @@
         }
 
         if (p.y > h + 40) {
-          p.y = -40;
+          p.y = -12;
           p.x = Math.random() * w;
           p.vy = (Math.random() * 0.6 + 0.4) * respawnVel;
           p.vyMax = (Math.random() * 0.35 + 0.85) * respawnVel;
@@ -458,21 +462,14 @@
         );
       }
 
-      // Sticky CTA scroll-linked translation & scroll-linked mandala rotation
-      const maxTranslate = isMobile ? 280 : 380;
+      // Scroll-linked mandala rotation
       ctaSections.forEach((sec) => {
-        const mover = sec.querySelector(".cta-scroll-mover");
         const ring = sec.querySelector("[data-mandala-ring]");
         const rect = sec.getBoundingClientRect();
         // Progress from when section top enters bottom of viewport to when it leaves top
         const totalTravel = Math.max(1, vh + rect.height);
         const currentTravel = vh - rect.top;
         const progress = Math.max(0, Math.min(1, currentTravel / totalTravel));
-
-        if (mover) {
-          const yOffset = progress * maxTranslate;
-          mover.style.setProperty("--cta-scroll-y", `${yOffset.toFixed(1)}px`);
-        }
 
         if (ring) {
           // Replicates Framer Motion onScroll rotation (0deg <-> 240deg across section scroll)

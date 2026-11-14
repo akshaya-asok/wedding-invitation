@@ -25,7 +25,7 @@ window.WEDDING_CONFIG = {
     speed: 0.5,          // Fall speed multiplier
     rotationSpeed: 5,    // Rotation speed (deg/s)
     density: 3,          // Gravity & wind density multiplier
-    fadeDuration: 2.0,   // Smoothstep fade-in duration (seconds)
+    fadeDuration: 0.35,  // Fast smoothstep fade-in duration (seconds) so petals appear immediately from top
   },
 
   // 3. Hero Section
