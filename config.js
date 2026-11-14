@@ -118,7 +118,6 @@ window.WEDDING_CONFIG = {
     url: "https://maps.google.com",
     ringImage: "assets/mandala-ring-location.png",
     innerImage: "assets/mandala-inner-location.png",
-    iconImage: "assets/icon-map-cta.png",
   },
 
   // 7. Section 2: Meet the Bride and Groom & Ornate Mirror Slideshow
@@ -135,7 +134,6 @@ window.WEDDING_CONFIG = {
       url: "https://wa.me/919999999999?text=Hi!%20I%20would%20love%20to%20RSVP%20for%20the%20wedding!",
       ringImage: "assets/mandala-ring-rsvp.png",
       innerImage: "assets/mandala-inner-rsvp.png",
-      iconImage: "assets/icon-whatsapp-cta.png",
     },
   },
 
@@ -147,22 +145,22 @@ window.WEDDING_CONFIG = {
       "To help you feel at ease and enjoy every moment of the celebrations, we’ve gathered a few thoughtful details we’d love for you to know before the big day.",
     items: [
       {
-        icon: "assets/icon-hashtag.png",
+        icon: "",
         title: "Hashtag",
         text: "While posting photos on social media please use the hashtag - #abkan",
       },
       {
-        icon: "assets/icon-weather.png",
+        icon: "",
         title: "Weather",
         text: "It will be mostly sunny with temperature reaching up to 28 degrees at the venue",
       },
       {
-        icon: "assets/icon-staff.png",
+        icon: "",
         title: "Staff",
         text: "We recommend the nearby hotel called Bhola Bhawan near the venue for the staff members",
       },
       {
-        icon: "assets/icon-parking.png",
+        icon: "",
         title: "Parking",
         text: "Valet parking for all our guests will be available at the venue",
       },
@@ -173,7 +171,6 @@ window.WEDDING_CONFIG = {
       url: "https://instagram.com",
       ringImage: "assets/mandala-ring-instagram.png",
       innerImage: "assets/mandala-inner-instagram.png",
-      iconImage: "assets/icon-instagram-cta.png",
     },
   },
 

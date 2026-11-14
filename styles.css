@@ -548,7 +548,7 @@ body {
 
 .event-card-slot {
   width: 480px;
-  height: 519px;
+  height: auto;
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -769,6 +769,7 @@ body {
   width: 100%;
   padding: 0;
   text-align: center;
+  text-decoration: none;
 }
 
 .cta-headline {
@@ -1234,6 +1235,7 @@ body {
   justify-content: flex-start;
   gap: 10px;
   padding: 0 0 618px;
+  background-color: #161426;
   overflow: visible;
 }
 
@@ -1373,12 +1375,12 @@ body {
 
   .event-card-slot {
     width: 322px;
-    height: 348px;
+    height: auto;
   }
 
   .event-card {
     width: 395px;
-    height: 427px;
+    height: auto;
   }
 
   .event-card-art {

@@ -71,7 +71,7 @@
       setText("invite-events-intro", CFG.invite.eventsIntro);
     }
 
-    // Events Grid (6 Arched Cards)
+    // Events Grid (6 Cards)
     const eventsGrid = document.getElementById("events-grid");
     if (eventsGrid && Array.isArray(CFG.events)) {
       eventsGrid.innerHTML = CFG.events
@@ -79,18 +79,15 @@
           (ev) => `
         <div class="event-card-slot">
           <article class="event-card">
-            <div class="event-card-art">
-              <div class="event-card-border">
-                <img src="assets/event-arch-border.png" alt="" loading="lazy" decoding="async" />
-              </div>
-              ${
-                ev.image
-                  ? `<div class="event-card-inside">
+            ${
+              ev.image
+                ? `<div class="event-card-art">
+              <div class="event-card-inside">
                 <img src="${ev.image}" alt="${ev.title}" loading="lazy" decoding="async" />
-              </div>`
-                  : ""
-              }
-            </div>
+              </div>
+            </div>`
+                : ""
+            }
             <div class="event-card-details">
               <h3 class="event-card-title">${ev.title}</h3>
               <p class="event-card-meta">${ev.datetime}</p>
@@ -148,9 +145,13 @@
             (item) => `
           <div class="thing-card-slot">
             <div class="thing-card">
-              <div class="thing-icon">
+              ${
+                item.icon
+                  ? `<div class="thing-icon">
                 <img src="${item.icon}" alt="${item.title}" loading="lazy" decoding="async" />
-              </div>
+              </div>`
+                  : ""
+              }
               <h3 class="thing-title">${item.title}</h3>
               <p class="thing-text">${item.text}</p>
             </div>
