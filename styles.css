@@ -455,8 +455,8 @@ body {
 }
 
 .framed-photo-1 {
-  max-width: 400px;
-  aspect-ratio: 719 / 1000;
+  max-width: 500px;
+  aspect-ratio: 1038 / 834;
 }
 
 .framed-photo-2 {
@@ -473,8 +473,8 @@ body {
 }
 
 .framed-photo-inside-1 {
-  inset: 4.8% 7.2%;
-  border-radius: 22px;
+  inset: 6.8% 5.0%;
+  border-radius: 20px;
   box-shadow:
     0 22px 48px rgba(0, 0, 0, 0.44),
     0 6px 16px rgba(0, 0, 0, 0.25);
@@ -508,6 +508,7 @@ body {
 }
 
 .frame-overlay-1 {
+  object-fit: fill;
   filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
 }
 
@@ -1793,7 +1794,7 @@ body {
   }
 
   .framed-photo-1 {
-    max-width: 300px;
+    max-width: 345px;
   }
 
   .framed-photo-inside-1 {
