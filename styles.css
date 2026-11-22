@@ -455,8 +455,8 @@ body {
 }
 
 .framed-photo-1 {
-  max-width: 500px;
-  aspect-ratio: 1038 / 834;
+  max-width: 480px;
+  aspect-ratio: 1000 / 719;
 }
 
 .framed-photo-2 {
@@ -473,8 +473,9 @@ body {
 }
 
 .framed-photo-inside-1 {
-  inset: 6.8% 5.0%;
-  border-radius: 20px;
+  inset: 0;
+  border-radius: 18px;
+  border: 1.5px solid rgba(226, 194, 117, 0.72);
   box-shadow:
     0 22px 48px rgba(0, 0, 0, 0.44),
     0 6px 16px rgba(0, 0, 0, 0.25);
@@ -508,8 +509,11 @@ body {
 }
 
 .frame-overlay-1 {
+  inset: 4px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
   object-fit: fill;
-  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
 }
 
 .invite-block {
