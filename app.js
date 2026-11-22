@@ -808,6 +808,164 @@
   }
 
   /* ==========================================================================
+     8. RSVP GUEST COUNT GOOGLE FORM SUBMISSION (PINK MANDALA)
+     ========================================================================== */
+  function initRsvpGoogleForm() {
+    const form = document.getElementById("rsvp-count-form");
+    const input = document.getElementById("rsvp-guest-count");
+    const statusMsg = document.getElementById("rsvp-status-msg");
+    const submitBtn = document.getElementById("rsvp-submit-btn");
+    if (!form || !input || !statusMsg || !submitBtn) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const rawVal = input.value.trim();
+      const count = parseInt(rawVal, 10);
+
+      if (!rawVal || isNaN(count) || count < 1) {
+        statusMsg.textContent = "Please enter a valid guest count.";
+        input.focus();
+        return;
+      }
+
+      const rsvpCfg = CFG.coupleSection?.rsvpCta || {};
+      const formUrl = (rsvpCfg.googleFormUrl || "").trim();
+      const entryId = (rsvpCfg.googleFormEntryId || "entry.123456789").trim();
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending...";
+
+      const finishSubmission = () => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submitted";
+        statusMsg.textContent = `Thank you! RSVP for ${count} ${count === 1 ? "guest" : "guests"} submitted.`;
+        input.value = "";
+        setTimeout(() => {
+          submitBtn.textContent = "Submit";
+        }, 3500);
+      };
+
+      if (formUrl && !formUrl.includes("YOUR_GOOGLE_FORM_ID")) {
+        const actionUrl = formUrl.replace(/\/viewform(\?.*)?$/i, "/formResponse");
+        const formData = new FormData();
+        formData.append(entryId, String(count));
+
+        fetch(actionUrl, {
+          method: "POST",
+          mode: "no-cors",
+          body: formData,
+        })
+          .then(finishSubmission)
+          .catch(finishSubmission);
+      } else {
+        finishSubmission();
+      }
+    });
+  }
+
+  /* ==========================================================================
+     9. COUPLE PHOTO CAROUSEL IN TRADITIONAL GOLDEN FRAME (1we & 2we)
+     ========================================================================== */
+  function initCouplePhotoCarousel() {
+    const viewport = document.getElementById("couple-carousel-viewport");
+    const track = document.getElementById("couple-carousel-track");
+    const prevBtn = document.getElementById("carousel-prev-btn");
+    const nextBtn = document.getElementById("carousel-next-btn");
+    if (!viewport || !track) return;
+
+    const slides = track.querySelectorAll(".couple-carousel-slide");
+    const dots = viewport.querySelectorAll(".carousel-dot");
+    const total = slides.length;
+    if (total <= 1) return;
+
+    let currentIndex = 0;
+    let timer = null;
+    const INTERVAL_MS = 3500;
+
+    function goToSlide(index) {
+      currentIndex = ((index % total) + total) % total;
+      track.style.transform = `translate3d(-${currentIndex * 100}%, 0, 0)`;
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("is-active", idx === currentIndex);
+      });
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      timer = setInterval(nextSlide, INTERVAL_MS);
+    }
+
+    function stopAutoPlay() {
+      if (timer) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener("click", () => {
+        nextSlide();
+        startAutoPlay();
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener("click", () => {
+        prevSlide();
+        startAutoPlay();
+      });
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const targetIdx = parseInt(dot.getAttribute("data-slide-to") || "0", 10);
+        goToSlide(targetIdx);
+        startAutoPlay();
+      });
+    });
+
+    let startX = 0;
+    let isDragging = false;
+
+    viewport.addEventListener(
+      "pointerdown",
+      (e) => {
+        if (e.target.closest("button")) return;
+        startX = e.clientX;
+        isDragging = true;
+        stopAutoPlay();
+      },
+      { passive: true }
+    );
+
+    window.addEventListener(
+      "pointerup",
+      (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        const diff = e.clientX - startX;
+        if (Math.abs(diff) > 35) {
+          if (diff < 0) nextSlide();
+          else prevSlide();
+        }
+        startAutoPlay();
+      },
+      { passive: true }
+    );
+
+    goToSlide(0);
+    startAutoPlay();
+  }
+
+  /* ==========================================================================
      INITIALIZE ALL MODULES ON DOM CONTENT LOADED
      ========================================================================== */
   document.addEventListener("DOMContentLoaded", () => {
@@ -818,6 +976,8 @@
     initMirrorSlideshow();
     initAudioPlayer();
     initCountdown();
+    initRsvpGoogleForm();
+    initCouplePhotoCarousel();
   });
 })();
 

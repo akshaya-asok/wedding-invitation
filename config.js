@@ -130,7 +130,7 @@ window.WEDDING_CONFIG = {
     photos: [],
     rsvpCta: {
       headline: "Please\nRSVP",
-      subtext: "Click here to add guest count",
+      subtext: "Add guest count here",
       // Paste your Google Form URL (viewform or formResponse) and the guest count field entry ID (e.g. "entry.123456789")
       googleFormUrl: "https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse",
       googleFormEntryId: "entry.123456789",
