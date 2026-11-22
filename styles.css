@@ -435,220 +435,80 @@ body {
   color: rgba(255, 255, 255, 0.95);
 }
 
-/* Couple Photo Carousel in Traditional Golden Border */
-.couple-carousel-slot {
+/* Framed Couple Photos (1we with frame1, 2we with frame2) */
+.framed-photo-slot {
   position: relative;
   z-index: 4;
   width: 100%;
-  padding: 28px 24px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.traditional-gold-frame {
+.custom-framed-photo {
   position: relative;
   width: 100%;
-  max-width: 440px;
-  padding: 18px;
-  border-radius: 16px;
-  background: linear-gradient(
-    135deg,
-    #a87a1e 0%,
-    #f6de8e 18%,
-    #c69732 36%,
-    #fff1b8 50%,
-    #c4942f 65%,
-    #f5dc88 83%,
-    #9c6f16 100%
-  );
-  box-shadow:
-    0 26px 56px rgba(0, 0, 0, 0.48),
-    0 10px 22px rgba(0, 0, 0, 0.30),
-    0 0 0 2px #7c560f,
-    0 0 0 6px rgba(246, 222, 142, 0.35),
-    inset 0 0 0 2px #7c560f;
-}
-
-/* Traditional Golden Filigree Top & Bottom Crests */
-.trad-crest {
-  position: absolute;
-  left: 50%;
-  width: 170px;
-  height: 32px;
-  pointer-events: none;
-  z-index: 5;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.38));
-}
-
-.trad-crest-top {
-  top: -22px;
-  transform: translateX(-50%);
-}
-
-.trad-crest-bottom {
-  bottom: -22px;
-  transform: translateX(-50%) scaleY(-1);
-}
-
-/* 4 Traditional Ornate Golden Corner Flourishes */
-.trad-corner {
-  position: absolute;
-  width: 54px;
-  height: 54px;
-  pointer-events: none;
-  z-index: 5;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.35));
-}
-
-.trad-corner-tl {
-  top: 4px;
-  left: 4px;
-}
-
-.trad-corner-tr {
-  top: 4px;
-  right: 4px;
-  transform: scaleX(-1);
-}
-
-.trad-corner-bl {
-  bottom: 4px;
-  left: 4px;
-  transform: scaleY(-1);
-}
-
-.trad-corner-br {
-  bottom: 4px;
-  right: 4px;
-  transform: scale(-1, -1);
-}
-
-/* Traditional Zari Inner Bezel */
-.traditional-zari-bezel {
-  position: relative;
-  width: 100%;
-  padding: 8px;
-  border-radius: 10px;
-  background: repeating-linear-gradient(
-    45deg,
-    #6a4910 0px,
-    #6a4910 4px,
-    #d7ad49 4px,
-    #d7ad49 8px
-  );
-  box-shadow:
-    inset 0 0 0 2px #583b0a,
-    0 2px 8px rgba(0, 0, 0, 0.32);
-}
-
-.couple-carousel-viewport {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  border-radius: 6px;
-  overflow: hidden;
-  border: 2px solid #f7e299;
-  background-color: #232d19;
-  user-select: none;
-  touch-action: pan-y;
-}
-
-.couple-carousel-track {
   display: flex;
-  width: 100%;
-  height: 100%;
-  will-change: transform;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  align-items: center;
+  justify-content: center;
 }
 
-.couple-carousel-slide {
-  flex: 0 0 100%;
-  width: 100%;
-  height: 100%;
-  position: relative;
+.framed-photo-1 {
+  max-width: 400px;
+  aspect-ratio: 719 / 1000;
 }
 
-.couple-carousel-slide img {
+.framed-photo-2 {
+  max-width: 390px;
+  aspect-ratio: 576 / 804;
+  filter: drop-shadow(0 22px 48px rgba(0, 0, 0, 0.46));
+}
+
+.framed-photo-inside {
+  position: absolute;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #232d19;
+}
+
+.framed-photo-inside-1 {
+  inset: 4.8% 7.2%;
+  border-radius: 22px;
+  box-shadow:
+    0 22px 48px rgba(0, 0, 0, 0.44),
+    0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.framed-photo-inside-2 {
+  top: 11.2%;
+  left: 10.0%;
+  width: 80.0%;
+  height: 81.2%;
+  border-radius: 50%;
+}
+
+.framed-photo-inside img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
   display: block;
+}
+
+.custom-frame-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
   pointer-events: none;
 }
 
-/* Carousel Prev / Next Controls */
-.carousel-nav-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 4;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: 1.5px solid #f5dd8c;
-  background: rgba(54, 38, 10, 0.62);
-  color: #fff5cc;
-  font-size: 16px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  transition: background-color 0.2s ease, transform 0.15s ease;
-}
-
-.carousel-nav-btn:hover {
-  background: rgba(88, 62, 15, 0.85);
-}
-
-.carousel-nav-btn:active {
-  transform: translateY(-50%) scale(0.92);
-}
-
-.carousel-prev {
-  left: 10px;
-}
-
-.carousel-next {
-  right: 10px;
-}
-
-/* Carousel Dots */
-.carousel-dots {
-  position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 4;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 5px 10px;
-  border-radius: 14px;
-  background: rgba(36, 26, 6, 0.52);
-  border: 1px solid rgba(245, 221, 140, 0.45);
-}
-
-.carousel-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 1px solid #f7e299;
-  background: rgba(255, 245, 204, 0.35);
-  padding: 0;
-  cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.25s ease;
-}
-
-.carousel-dot.is-active {
-  background: #fbe69c;
-  transform: scale(1.25);
-  box-shadow: 0 0 8px rgba(251, 230, 156, 0.85);
+.frame-overlay-1 {
+  filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.45));
 }
 
 .invite-block {
@@ -1928,42 +1788,20 @@ body {
     font-size: 18px;
   }
 
-  .couple-carousel-slot {
-    padding: 20px 18px;
+  .framed-photo-slot {
+    padding: 8px 18px;
   }
 
-  .traditional-gold-frame {
-    max-width: 320px;
-    padding: 14px;
-    border-radius: 14px;
+  .framed-photo-1 {
+    max-width: 300px;
   }
 
-  .trad-crest {
-    width: 135px;
-    height: 26px;
+  .framed-photo-inside-1 {
+    border-radius: 16px;
   }
 
-  .trad-crest-top {
-    top: -18px;
-  }
-
-  .trad-crest-bottom {
-    bottom: -18px;
-  }
-
-  .trad-corner {
-    width: 42px;
-    height: 42px;
-  }
-
-  .traditional-zari-bezel {
-    padding: 6px;
-  }
-
-  .carousel-nav-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
+  .framed-photo-2 {
+    max-width: 295px;
   }
 
   .invite-block {
