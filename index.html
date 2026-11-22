@@ -140,23 +140,20 @@
             </div>
           </div>
 
-          <!-- Projecting Transparent Tab with Two Tilted Framed Photos (1we & 2we) -->
-          <div class="photo-projection-wrapper">
-            <div class="photo-projection-tab">
-              <figure class="tilted-photo-frame tilted-photo-top">
-                <div class="tilted-photo-inner">
-                  <img src="assets/1we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
-                </div>
-              </figure>
-              <figure class="tilted-photo-frame tilted-photo-bottom">
-                <div class="tilted-photo-inner">
-                  <img src="assets/2we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
-                </div>
-              </figure>
-            </div>
+          <!-- Tilted Photo 1 (1we) in Simple Decorative Frame Under First Mandala -->
+          <div class="decorative-photo-slot">
+            <figure class="decorative-photo-frame photo-tilt-left">
+              <span class="frame-corner corner-tl" aria-hidden="true"></span>
+              <span class="frame-corner corner-tr" aria-hidden="true"></span>
+              <span class="frame-corner corner-bl" aria-hidden="true"></span>
+              <span class="frame-corner corner-br" aria-hidden="true"></span>
+              <div class="decorative-photo-inner">
+                <img src="assets/1we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
+              </div>
+            </figure>
           </div>
 
-          <!-- Mandala Design 2: RSVP on WhatsApp -->
+          <!-- Mandala Design 2: Pink Mandala — RSVP Guest Count Input & Google Form Submit -->
           <div id="rsvp" class="cta-sticky-section cta-rsvp-section">
             <div class="cta-scroll-mover">
               <div class="mandala-medallion mandala-rsvp">
@@ -169,17 +166,38 @@
                   <img id="cta-rsvp-inner-img" src="assets/mandala-inner-rsvp.png" alt="" loading="lazy"
                     decoding="async" />
                 </div>
-                <!-- Layer 3: Centered Text & Action Link -->
+                <!-- Layer 3: Centered RSVP Guest Count Input & Submit -->
                 <div class="mandala-content">
-                  <a id="cta-rsvp-btn" class="cta-text-block cta-text-link"
-                    href="https://wa.me/919999999999" target="_blank" rel="noopener noreferrer"
-                    aria-label="Click to RSVP on WhatsApp">
-                    <h2 id="cta-rsvp-headline" class="cta-headline">Please&#10;rsvp</h2>
-                    <p id="cta-rsvp-subtext" class="cta-subtext">Click to message on WhatsApp</p>
-                  </a>
+                  <div class="cta-text-block rsvp-form-block">
+                    <label for="rsvp-guest-count" class="rsvp-trigger-label">
+                      <h2 id="cta-rsvp-headline" class="cta-headline">Please&#10;RSVP</h2>
+                      <p id="cta-rsvp-subtext" class="cta-subtext">Click here to add guest count</p>
+                    </label>
+                    <form id="rsvp-count-form" class="mandala-rsvp-form" novalidate>
+                      <div class="rsvp-input-group">
+                        <input id="rsvp-guest-count" class="rsvp-count-input" type="number" name="guestCount"
+                          min="1" max="50" placeholder="Count" required aria-label="Number of guests attending" />
+                        <button id="rsvp-submit-btn" class="rsvp-submit-btn" type="submit">Submit</button>
+                      </div>
+                      <p id="rsvp-status-msg" class="rsvp-status-msg" aria-live="polite"></p>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          <!-- Tilted Photo 2 (2we) in Simple Decorative Frame Under Second Mandala -->
+          <div class="decorative-photo-slot">
+            <figure class="decorative-photo-frame photo-tilt-right">
+              <span class="frame-corner corner-tl" aria-hidden="true"></span>
+              <span class="frame-corner corner-tr" aria-hidden="true"></span>
+              <span class="frame-corner corner-bl" aria-hidden="true"></span>
+              <span class="frame-corner corner-br" aria-hidden="true"></span>
+              <div class="decorative-photo-inner">
+                <img src="assets/2we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
+              </div>
+            </figure>
           </div>
 
           <!-- Mandala Design 3: Instagram CTA -->

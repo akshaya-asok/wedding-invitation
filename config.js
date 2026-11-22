@@ -129,9 +129,11 @@ window.WEDDING_CONFIG = {
     slideshowIntervalMs: 2000,
     photos: [],
     rsvpCta: {
-      headline: "Please\nrsvp",
-      subtext: "Click to message on WhatsApp",
-      url: "https://wa.me/919999999999?text=Hi!%20I%20would%20love%20to%20RSVP%20for%20the%20wedding!",
+      headline: "Please\nRSVP",
+      subtext: "Click here to add guest count",
+      // Paste your Google Form URL (viewform or formResponse) and the guest count field entry ID (e.g. "entry.123456789")
+      googleFormUrl: "https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse",
+      googleFormEntryId: "entry.123456789",
       ringImage: "assets/mandala-ring-rsvp.png",
       innerImage: "assets/mandala-inner-rsvp.png",
     },
