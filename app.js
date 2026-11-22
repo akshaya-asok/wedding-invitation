@@ -684,9 +684,14 @@
     const iconSvg = document.getElementById("music-icon-svg");
     if (!audio || !btn || !iconSvg) return;
 
+    const MAX_PLAY_SECONDS = 60; // Stop playing after 1 minute
+    let stopTimerId = null;
+    let hasStoppedAfterOneMinute = false;
+
     if (CFG.meta?.musicSrc) {
       audio.src = CFG.meta.musicSrc;
     }
+    audio.loop = false;
 
     function updateIcon(isPlaying) {
       if (isPlaying) {
@@ -698,8 +703,33 @@
       }
     }
 
+    function clearStopTimer() {
+      if (stopTimerId) {
+        clearTimeout(stopTimerId);
+        stopTimerId = null;
+      }
+    }
+
+    function stopAtOneMinute() {
+      clearStopTimer();
+      hasStoppedAfterOneMinute = true;
+      audio.pause();
+      audio.currentTime = 0;
+      updateIcon(false);
+    }
+
+    function scheduleOneMinuteStop() {
+      clearStopTimer();
+      const remainingSec = Math.max(0.1, MAX_PLAY_SECONDS - (audio.currentTime || 0));
+      stopTimerId = setTimeout(stopAtOneMinute, remainingSec * 1000);
+    }
+
     function togglePlay() {
       if (audio.paused) {
+        if (audio.currentTime >= MAX_PLAY_SECONDS) {
+          audio.currentTime = 0;
+        }
+        hasStoppedAfterOneMinute = false;
         audio.play().catch(() => {});
       } else {
         audio.pause();
@@ -707,15 +737,42 @@
     }
 
     btn.addEventListener("click", togglePlay);
-    audio.addEventListener("play", () => updateIcon(true));
-    audio.addEventListener("pause", () => updateIcon(false));
+    audio.addEventListener("play", () => {
+      updateIcon(true);
+      scheduleOneMinuteStop();
+    });
+    audio.addEventListener("pause", () => {
+      clearStopTimer();
+      updateIcon(false);
+    });
+    audio.addEventListener("timeupdate", () => {
+      if (!audio.paused && audio.currentTime >= MAX_PLAY_SECONDS) {
+        stopAtOneMinute();
+      }
+    });
 
-    // Attempt autoplay if configured, or start on first user interaction
+    // Play automatically when the website loads (with first-gesture fallback if browser blocks initial autoplay)
     if (CFG.meta?.autoplayMusic !== false) {
+      const unlockEvents = ["pointerdown", "touchstart", "click", "scroll", "keydown"];
+      const unlockOnFirstGesture = () => {
+        unlockEvents.forEach((evt) =>
+          window.removeEventListener(evt, unlockOnFirstGesture)
+        );
+        if (audio.paused && !hasStoppedAfterOneMinute) {
+          audio.play().catch(() => {});
+        }
+      };
+
       const playPromise = audio.play();
       if (playPromise && typeof playPromise.catch === "function") {
         playPromise.catch(() => {
           updateIcon(false);
+          unlockEvents.forEach((evt) =>
+            window.addEventListener(evt, unlockOnFirstGesture, {
+              once: true,
+              passive: true,
+            })
+          );
         });
       }
     }
