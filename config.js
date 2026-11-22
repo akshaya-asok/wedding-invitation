@@ -111,13 +111,13 @@ window.WEDDING_CONFIG = {
     },
   ],
 
-  // 6. Section 1 CTA: Venue Route (Rotating Mandala Medallion — Gold Theme)
+  // 6. Section 1 CTA: Venue Route (Rotating Yellow Mandala Medallion — Brown Font & Rings)
   locationCta: {
     headline: "See the\nroute",
     subtext: "Click to open the map",
-    url: "https://maps.google.com",
-    ringImage: "assets/mandala-ring-location.png",
-    innerImage: "assets/mandala-inner-location.png",
+    url: "https://www.google.com/maps/search/?api=1&query=Mount+Carmel+Convention+Centre+Vazhuthacaud+Thiruvananthapuram",
+    ringImage: "assets/mandala-ring-instagram.png",
+    innerImage: "assets/mandala-inner-instagram.png",
   },
 
   // 7. Section 2: Meet the Bride and Groom & Ornate Mirror Slideshow
@@ -169,8 +169,8 @@ window.WEDDING_CONFIG = {
       headline: "Follow the\naction",
       subtext: "Click to open our Instagram page",
       url: "https://instagram.com",
-      ringImage: "assets/mandala-ring-instagram.png",
-      innerImage: "assets/mandala-inner-instagram.png",
+      ringImage: "assets/mandala-ring-location.png",
+      innerImage: "assets/mandala-inner-location.png",
     },
   },
 

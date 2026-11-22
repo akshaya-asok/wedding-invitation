@@ -345,8 +345,8 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  gap: 70px;
-  padding: calc(3.8% + 60px) 0 100px;
+  gap: 52px;
+  padding: calc(3.8% + 28px) 0 80px;
   background-color: #263918;
   overflow: clip;
 }
@@ -357,6 +357,81 @@ body {
   height: 100%;
   object-fit: cover;
   object-position: center top;
+}
+
+/* Transparent Glass Projection Invitation Card */
+.glass-projection-wrapper {
+  position: relative;
+  z-index: 4;
+  width: 100%;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-projection-card {
+  width: 100%;
+  max-width: 680px;
+  padding: 36px 44px;
+  border-radius: 26px;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.28),
+    inset 0 1px 1px rgba(255, 255, 255, 0.42),
+    inset 0 -1px 1px rgba(255, 255, 255, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.glass-invite-heading {
+  font-family: var(--font-cormorant-upright);
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+  color: var(--color-gold-title);
+}
+
+.glass-invite-divider {
+  width: 72px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(218, 206, 157, 0) 0%,
+    rgba(218, 206, 157, 0.85) 50%,
+    rgba(218, 206, 157, 0) 100%
+  );
+  margin: 2px 0;
+}
+
+.glass-invite-date {
+  font-family: var(--font-cormorant-infant);
+  font-size: 42px;
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 1.15;
+  color: var(--color-white);
+}
+
+.glass-invite-location {
+  font-family: var(--font-cormorant-upright);
+  font-size: 24px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 .invite-block {
@@ -739,6 +814,17 @@ body {
   display: block;
 }
 
+/* Full-Mandala Clickable Link Overlay */
+.mandala-full-link {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  border-radius: 50%;
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 /* Layer 3: Centered Text & Action Icon Stack (z-index: 2) */
 .mandala-content {
   position: absolute;
@@ -773,7 +859,7 @@ body {
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 0.84;
-  color: #ac9545;
+  color: rgb(104, 66, 38);
   white-space: pre-line;
 }
 
@@ -787,13 +873,13 @@ body {
   font-weight: 400;
   letter-spacing: -0.02em;
   line-height: 1.4;
-  color: #ac9545;
+  color: rgb(104, 66, 38);
 }
 
 /* Color Themes for Each Mandala Medallion */
 .mandala-location .cta-headline,
 .mandala-location .cta-subtext {
-  color: rgb(172, 149, 69);
+  color: rgb(104, 66, 38);
 }
 
 .mandala-rsvp .cta-headline,
@@ -803,7 +889,7 @@ body {
 
 .mandala-instagram .cta-headline,
 .mandala-instagram .cta-subtext {
-  color: rgb(254, 246, 209);
+  color: rgb(172, 149, 69);
 }
 
 /* Clickable Action Icon Button Inside Medallion */
@@ -1498,9 +1584,32 @@ body {
 
   .invite-and-events {
     margin-top: -9.2%;
-    padding: calc(9.2% + 36px) 0 65px;
-    gap: 36px;
+    padding: calc(9.2% + 20px) 0 55px;
+    gap: 28px;
     overflow: clip;
+  }
+
+  .glass-projection-wrapper {
+    padding: 0 18px;
+  }
+
+  .glass-projection-card {
+    max-width: 100%;
+    padding: 26px 22px;
+    border-radius: 22px;
+    gap: 10px;
+  }
+
+  .glass-invite-heading {
+    font-size: 22px;
+  }
+
+  .glass-invite-date {
+    font-size: 31px;
+  }
+
+  .glass-invite-location {
+    font-size: 18px;
   }
 
   .invite-block {
