@@ -347,10 +347,11 @@ body {
   justify-content: flex-start;
   gap: 70px;
   padding: calc(3.8% + 60px) 0 100px;
-  background-color: #1c1e38;
+  background-color: #263918;
   overflow: clip;
 }
 
+.invite-and-events > .bg-wrapper picture,
 .invite-and-events > .bg-wrapper img {
   width: 100%;
   height: 100%;
