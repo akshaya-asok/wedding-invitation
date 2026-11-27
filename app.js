@@ -22,7 +22,7 @@
   const PLAY_SVG_PATH =
     "M 5.379 1.292 C 4.968 1.033 4.449 1.017 4.023 1.251 C 3.598 1.486 3.334 1.933 3.333 2.419 L 3.333 13.581 C 3.334 14.067 3.598 14.514 4.023 14.749 C 4.449 14.983 4.968 14.967 5.379 14.708 L 14.215 9.127 C 14.602 8.883 14.836 8.457 14.836 8 C 14.602 7.117 14.215 6.873 14.215 6.873 Z";
   const PAUSE_SVG_HTML =
-    '<rect x="3.5" y="2" width="3.2" height="12" rx="1" fill="#333"></rect><rect x="9.3" y="2" width="3.2" height="12" rx="1" fill="#333"></rect>';
+    '<rect x="3.5" y="2" width="3.2" height="12" rx="1" fill="currentColor"></rect><rect x="9.3" y="2" width="3.2" height="12" rx="1" fill="currentColor"></rect>';
 
   /* ==========================================================================
      1. POPULATE DOM FROM WEDDING_CONFIG
@@ -684,12 +684,14 @@
     const iconSvg = document.getElementById("music-icon-svg");
     if (!audio || !btn || !iconSvg) return;
 
-    const MAX_PLAY_SECONDS = 60; // Stop playing after 1 minute
+    const MAX_PLAY_SECONDS = 70; // Stop playing after 1 minute and 10 seconds (70s)
     let stopTimerId = null;
-    let hasStoppedAfterOneMinute = false;
+    let userManuallyStopped = false;
+    let hasCompletedAutoWindow = false;
 
-    if (CFG.meta?.musicSrc) {
-      audio.src = CFG.meta.musicSrc;
+    const desiredSrc = CFG.meta?.musicSrc || "assets/music.mp3";
+    if (!audio.getAttribute("src") || audio.getAttribute("src") !== desiredSrc) {
+      audio.src = desiredSrc;
     }
     audio.loop = false;
 
@@ -698,7 +700,7 @@
         iconSvg.innerHTML = PAUSE_SVG_HTML;
         btn.setAttribute("aria-label", "Pause music");
       } else {
-        iconSvg.innerHTML = `<path d="${PLAY_SVG_PATH}" fill="#333"></path>`;
+        iconSvg.innerHTML = `<path d="${PLAY_SVG_PATH}" fill="currentColor"></path>`;
         btn.setAttribute("aria-label", "Play music");
       }
     }
@@ -710,28 +712,33 @@
       }
     }
 
-    function stopAtOneMinute() {
+    function stopAtMaxDuration() {
       clearStopTimer();
-      hasStoppedAfterOneMinute = true;
+      hasCompletedAutoWindow = true;
       audio.pause();
       audio.currentTime = 0;
       updateIcon(false);
     }
 
-    function scheduleOneMinuteStop() {
+    function scheduleAutoStop() {
       clearStopTimer();
       const remainingSec = Math.max(0.1, MAX_PLAY_SECONDS - (audio.currentTime || 0));
-      stopTimerId = setTimeout(stopAtOneMinute, remainingSec * 1000);
+      stopTimerId = setTimeout(stopAtMaxDuration, remainingSec * 1000);
     }
 
-    function togglePlay() {
+    function togglePlay(e) {
+      if (e) e.stopPropagation();
       if (audio.paused) {
         if (audio.currentTime >= MAX_PLAY_SECONDS) {
           audio.currentTime = 0;
         }
-        hasStoppedAfterOneMinute = false;
+        userManuallyStopped = false;
+        hasCompletedAutoWindow = false;
+        audio.muted = false;
         audio.play().catch(() => {});
       } else {
+        userManuallyStopped = true;
+        clearStopTimer();
         audio.pause();
       }
     }
@@ -739,7 +746,7 @@
     btn.addEventListener("click", togglePlay);
     audio.addEventListener("play", () => {
       updateIcon(true);
-      scheduleOneMinuteStop();
+      scheduleAutoStop();
     });
     audio.addEventListener("pause", () => {
       clearStopTimer();
@@ -747,34 +754,83 @@
     });
     audio.addEventListener("timeupdate", () => {
       if (!audio.paused && audio.currentTime >= MAX_PLAY_SECONDS) {
-        stopAtOneMinute();
+        stopAtMaxDuration();
       }
     });
 
-    // Play automatically when the website loads (with first-gesture fallback if browser blocks initial autoplay)
+    // Start playing automatically right as the website loads
     if (CFG.meta?.autoplayMusic !== false) {
-      const unlockEvents = ["pointerdown", "touchstart", "click", "scroll", "keydown"];
-      const unlockOnFirstGesture = () => {
+      const unlockEvents = [
+        "pointerdown",
+        "pointermove",
+        "touchstart",
+        "touchmove",
+        "wheel",
+        "scroll",
+        "click",
+        "keydown",
+      ];
+
+      const removeUnlockListeners = () => {
         unlockEvents.forEach((evt) =>
-          window.removeEventListener(evt, unlockOnFirstGesture)
+          window.removeEventListener(evt, unlockAudioOnInteraction, { capture: true })
         );
-        if (audio.paused && !hasStoppedAfterOneMinute) {
-          audio.play().catch(() => {});
+      };
+
+      const unlockAudioOnInteraction = (e) => {
+        if (e && e.target && btn.contains(e.target)) return;
+        if (userManuallyStopped || hasCompletedAutoWindow) {
+          removeUnlockListeners();
+          return;
+        }
+        if (audio.muted) {
+          audio.muted = false;
+        }
+        if (audio.paused) {
+          audio.play()
+            .then(() => {
+              if (!audio.muted) removeUnlockListeners();
+            })
+            .catch(() => {});
+        } else if (!audio.muted) {
+          removeUnlockListeners();
         }
       };
 
-      const playPromise = audio.play();
-      if (playPromise && typeof playPromise.catch === "function") {
-        playPromise.catch(() => {
-          updateIcon(false);
-          unlockEvents.forEach((evt) =>
-            window.addEventListener(evt, unlockOnFirstGesture, {
-              once: true,
-              passive: true,
+      const attemptImmediateAutoplay = () => {
+        if (userManuallyStopped || hasCompletedAutoWindow || !audio.paused) return;
+        audio.muted = false;
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.then === "function") {
+          playPromise
+            .then(() => {
+              updateIcon(true);
             })
-          );
-        });
-      }
+            .catch(() => {
+              // Register immediate interaction unlockers for strict browser autoplay policies
+              unlockEvents.forEach((evt) =>
+                window.addEventListener(evt, unlockAudioOnInteraction, {
+                  capture: true,
+                  passive: true,
+                })
+              );
+              // Also start muted immediately so playback clock begins on load and unmutes seamlessly
+              audio.muted = true;
+              audio.play()
+                .then(() => {
+                  updateIcon(true);
+                })
+                .catch(() => {
+                  audio.muted = false;
+                  updateIcon(false);
+                });
+            });
+        }
+      };
+
+      attemptImmediateAutoplay();
+      audio.addEventListener("canplay", attemptImmediateAutoplay, { once: true });
+      window.addEventListener("load", attemptImmediateAutoplay, { once: true });
     }
   }
 

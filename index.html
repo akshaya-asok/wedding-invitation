@@ -7,14 +7,15 @@
   <title>Anand Mahadevan weds Akshaya — Wedding Invitation</title>
   <meta name="description" content="Join us in the wedding celebrations of Abhishek & Kanika" />
 
-  <!-- Google Fonts matching exact City-3 Typography -->
+  <!-- Google Fonts matching exact City-3 Typography + Merienda & Satisfy -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant+Infant:wght@400;700&family=Cormorant+Unicase:wght@400&family=Cormorant+Upright:wght@400;700&family=Cormorant:wght@400;600&family=Gotu&family=Manrope:wght@600&family=Yaldevi:wght@400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Aboreto&family=Cormorant+Infant:wght@400;700&family=Cormorant+Unicase:wght@400&family=Cormorant+Upright:wght@400;700&family=Cormorant:wght@400;600&family=Gotu&family=Manrope:wght@600&family=Merienda:wght@400;600;700&family=Satisfy&family=Yaldevi:wght@400&display=swap"
     rel="stylesheet" />
 
   <link rel="preload" as="image" href="assets/petal.png" />
+  <link rel="preload" as="audio" href="assets/music.mp3" type="audio/mpeg" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 
@@ -26,12 +27,11 @@
          ==================================================================== -->
     <div class="music-sticky-bar" aria-label="Background Music Controls">
       <div class="music-btn-wrapper">
-        <button id="music-toggle-btn" class="music-btn" type="button" aria-label="Play music">
+        <button id="music-toggle-btn" class="music-btn" type="button" aria-label="Pause music">
           <audio id="wedding-audio" src="assets/music.mp3" autoplay preload="auto"></audio>
           <svg id="music-icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M 5.379 1.292 C 4.968 1.033 4.449 1.017 4.023 1.251 C 3.598 1.486 3.334 1.933 3.333 2.419 L 3.333 13.581 C 3.334 14.067 3.598 14.514 4.023 14.749 C 4.449 14.983 4.968 14.967 5.379 14.708 L 14.215 9.127 C 14.602 8.883 14.836 8.457 14.836 8 C 14.836 7.543 14.602 7.117 14.215 6.873 Z"
-              fill="#333" />
+            <rect x="3.5" y="2" width="3.2" height="12" rx="1" fill="currentColor"></rect>
+            <rect x="9.3" y="2" width="3.2" height="12" rx="1" fill="currentColor"></rect>
           </svg>
         </button>
       </div>
@@ -101,11 +101,10 @@
             </picture>
           </div>
 
-          <!-- Transparent Glass Projection Invitation Card -->
+          <!-- Simple Aesthetic Invitation Card -->
           <div class="glass-projection-wrapper">
             <div class="glass-projection-card">
               <p class="glass-invite-heading">Together with our families, we invite you to celebrate our love at our wedding reception!</p>
-              <div class="glass-invite-divider" aria-hidden="true"></div>
               <p class="glass-invite-date">23 Jan 2027 at 4.30 pm</p>
               <p class="glass-invite-location">at Mount Carmel Convention Centre, Vazhuthacaud</p>
             </div>
@@ -140,13 +139,12 @@
             </div>
           </div>
 
-          <!-- Photo 1 (1we) Under First Mandala with frame1 Border -->
-          <div class="framed-photo-slot">
-            <figure class="custom-framed-photo framed-photo-1">
+          <!-- Photo 1 (1we) Under First Mandala with Simple Aesthetic Border -->
+          <div class="framed-photo-slot framed-photo-slot-1">
+            <figure class="custom-framed-photo simple-aesthetic-frame framed-photo-1">
               <div class="framed-photo-inside framed-photo-inside-1">
                 <img src="assets/1we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
               </div>
-              <img class="custom-frame-overlay frame-overlay-1" src="assets/frame1.png" alt="" loading="lazy" decoding="async" />
             </figure>
           </div>
 
@@ -184,41 +182,18 @@
             </div>
           </div>
 
-          <!-- Photo 2 (2we) Under Second Mandala with frame2 Border -->
+          <!-- Photo 2 (2we) Under Second Mandala (Borderless Aesthetic Blend) -->
           <div class="framed-photo-slot framed-photo-slot-2">
-            <figure class="custom-framed-photo framed-photo-2">
+            <figure class="custom-framed-photo borderless-aesthetic-photo framed-photo-2">
               <div class="framed-photo-inside framed-photo-inside-2">
                 <img src="assets/2we.jpeg" alt="Anand Mahadevan and Akshaya" loading="lazy" decoding="async" />
               </div>
-              <img class="custom-frame-overlay frame-overlay-2" src="assets/frame2.png" alt="" loading="lazy" decoding="async" />
             </figure>
           </div>
 
-          <!-- Mandala Design 3: Instagram CTA -->
-          <div id="instagram" class="cta-sticky-section cta-instagram-section">
-            <div class="cta-scroll-mover">
-              <div class="mandala-medallion mandala-instagram">
-                <!-- Layer 1: Rotating Outer Mandala Ring -->
-                <div class="mandala-ring-outer" data-mandala-ring>
-                  <img id="cta-instagram-ring-img" src="assets/mandala-ring-location.png" alt="" loading="lazy"
-                    decoding="async" />
-                </div>
-                <!-- Layer 2: Static Inner Medallion Circle -->
-                <div class="mandala-circle-inner">
-                  <img id="cta-instagram-inner-img" src="assets/mandala-inner-location.png" alt="" loading="lazy"
-                    decoding="async" />
-                </div>
-                <!-- Layer 3: Centered Text & Action Link -->
-                <div class="mandala-content">
-                  <a id="cta-instagram-btn" class="cta-text-block cta-text-link"
-                    href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                    aria-label="Open our Instagram page">
-                    <h2 id="cta-instagram-headline" class="cta-headline">Follow the&#10;action</h2>
-                    <p id="cta-instagram-subtext" class="cta-subtext">Click to open our Instagram page</p>
-                  </a>
-                </div>
-              </div>
-            </div>
+          <!-- Stylized Plain Text Closing Message Under Second Picture -->
+          <div class="closing-greeting-wrapper">
+            <h2 class="closing-greeting-text">We can&rsquo;t wait to see you there!</h2>
           </div>
         </div>
       </section>
