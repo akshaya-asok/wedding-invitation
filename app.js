@@ -327,8 +327,13 @@
           0,
           Math.min(1, fadeDur <= 0 ? 1 : p.fade / fadeDur)
         );
-        // Hermite smoothstep curve: 3t^2 - 2t^3
-        const opacity = linearFade * linearFade * (3 - 2 * linearFade);
+        // Hermite smoothstep curve: 3t^2 - 2t^3, plus soft bottom-edge fade near the bottom of palace-mobile.png
+        let opacity = linearFade * linearFade * (3 - 2 * linearFade);
+        const bottomFadeZone = 75;
+        if (ry > h - bottomFadeZone) {
+          const bt = Math.max(0, Math.min(1, (h - ry) / bottomFadeZone));
+          opacity *= bt * bt * (3 - 2 * bt);
+        }
 
         if (hasSprite) {
           ctx.save();
@@ -363,6 +368,16 @@
     function measureAndResize() {
       const parent = canvas.parentElement;
       if (!parent) return;
+
+      // Dynamically align the bottom of #petals-canvas-container to the exact bottom of #hero-structure (palace-mobile.png / palace-desktop.png)
+      const heroStruct = document.getElementById("hero-structure");
+      if (heroStruct && heroStruct.offsetHeight > 0) {
+        const targetBottom = heroStruct.offsetTop + heroStruct.offsetHeight;
+        if (targetBottom > 300) {
+          parent.style.height = `${Math.round(targetBottom)}px`;
+        }
+      }
+
       const rect = parent.getBoundingClientRect();
       dpr = Math.max(1, Math.min(3, window.devicePixelRatio || 1));
       const newW = Math.max(1, Math.round(rect.width));
@@ -411,11 +426,14 @@
     }
 
     measureAndResize();
-    if (typeof ResizeObserver !== "undefined" && canvas.parentElement) {
+    if (typeof ResizeObserver !== "undefined") {
       const ro = new ResizeObserver(measureAndResize);
-      ro.observe(canvas.parentElement);
+      if (canvas.parentElement) ro.observe(canvas.parentElement);
+      const heroStruct = document.getElementById("hero-structure");
+      if (heroStruct) ro.observe(heroStruct);
     }
     window.addEventListener("resize", measureAndResize, { passive: true });
+    window.addEventListener("load", measureAndResize, { once: true });
     requestAnimationFrame(tick);
   }
 
@@ -758,23 +776,38 @@
       }
     });
 
-    // Start playing automatically right as the website loads
+    // Start playing automatically right as the website loads (including inside mobile preview iframe)
     if (CFG.meta?.autoplayMusic !== false) {
       const unlockEvents = [
         "pointerdown",
         "pointermove",
+        "pointerup",
+        "mousedown",
+        "mousemove",
+        "mouseenter",
         "touchstart",
         "touchmove",
+        "touchend",
         "wheel",
         "scroll",
         "click",
         "keydown",
+        "focus",
       ];
 
       const removeUnlockListeners = () => {
-        unlockEvents.forEach((evt) =>
-          window.removeEventListener(evt, unlockAudioOnInteraction, { capture: true })
-        );
+        unlockEvents.forEach((evt) => {
+          window.removeEventListener(evt, unlockAudioOnInteraction, { capture: true });
+          document.removeEventListener(evt, unlockAudioOnInteraction, { capture: true });
+        });
+        try {
+          if (window.parent && window.parent !== window) {
+            unlockEvents.forEach((evt) => {
+              window.parent.removeEventListener(evt, unlockAudioOnInteraction, { capture: true });
+              window.parent.document.removeEventListener(evt, unlockAudioOnInteraction, { capture: true });
+            });
+          }
+        } catch (_) {}
       };
 
       const unlockAudioOnInteraction = (e) => {
@@ -783,42 +816,90 @@
           removeUnlockListeners();
           return;
         }
-        if (audio.muted) {
-          audio.muted = false;
-        }
-        if (audio.paused) {
-          audio.play()
-            .then(() => {
-              if (!audio.muted) removeUnlockListeners();
-            })
-            .catch(() => {});
-        } else if (!audio.muted) {
-          removeUnlockListeners();
+        try {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) {
+            if (!window.__weddingAudioCtx) {
+              window.__weddingAudioCtx = new AudioCtx();
+            }
+            if (window.__weddingAudioCtx.state === "suspended") {
+              window.__weddingAudioCtx.resume().catch(() => {});
+            }
+          }
+        } catch (_) {}
+
+        audio.muted = false;
+        audio.volume = 1.0;
+        const p = audio.play();
+        if (p && typeof p.then === "function") {
+          p.then(() => {
+            if (!audio.paused && !audio.muted) {
+              updateIcon(true);
+              removeUnlockListeners();
+            }
+          }).catch(() => {});
         }
       };
 
+      const attachUnlockListeners = () => {
+        unlockEvents.forEach((evt) => {
+          window.addEventListener(evt, unlockAudioOnInteraction, {
+            capture: true,
+            passive: true,
+          });
+          document.addEventListener(evt, unlockAudioOnInteraction, {
+            capture: true,
+            passive: true,
+          });
+        });
+        try {
+          if (window.parent && window.parent !== window) {
+            unlockEvents.forEach((evt) => {
+              window.parent.addEventListener(evt, unlockAudioOnInteraction, {
+                capture: true,
+                passive: true,
+              });
+              window.parent.document.addEventListener(evt, unlockAudioOnInteraction, {
+                capture: true,
+                passive: true,
+              });
+            });
+          }
+        } catch (_) {}
+      };
+
       const attemptImmediateAutoplay = () => {
-        if (userManuallyStopped || hasCompletedAutoWindow || !audio.paused) return;
+        if (userManuallyStopped || hasCompletedAutoWindow) return;
+        if (!audio.paused && !audio.muted) return;
+
         audio.muted = false;
+        audio.volume = 1.0;
         const playPromise = audio.play();
         if (playPromise && typeof playPromise.then === "function") {
           playPromise
             .then(() => {
               updateIcon(true);
+              removeUnlockListeners();
             })
             .catch(() => {
-              // Register immediate interaction unlockers for strict browser autoplay policies
-              unlockEvents.forEach((evt) =>
-                window.addEventListener(evt, unlockAudioOnInteraction, {
-                  capture: true,
-                  passive: true,
-                })
-              );
-              // Also start muted immediately so playback clock begins on load and unmutes seamlessly
+              attachUnlockListeners();
+              // Start muted immediately so playback clock begins on load and unmutes seamlessly
               audio.muted = true;
               audio.play()
                 .then(() => {
                   updateIcon(true);
+                  // Attempt immediate unmute right after muted playback starts (works when Media Engagement or iframe delegation allows it)
+                  setTimeout(() => {
+                    if (!userManuallyStopped && !hasCompletedAutoWindow) {
+                      audio.muted = false;
+                      if (audio.paused) {
+                        audio.muted = true;
+                        audio.play().catch(() => {});
+                      } else {
+                        removeUnlockListeners();
+                      }
+                    }
+                  }, 60);
                 })
                 .catch(() => {
                   audio.muted = false;
@@ -828,7 +909,14 @@
         }
       };
 
+      window.addEventListener("message", (evt) => {
+        if (evt && evt.data === "wedding-unlock-audio") {
+          unlockAudioOnInteraction();
+        }
+      });
+
       attemptImmediateAutoplay();
+      audio.addEventListener("loadedmetadata", attemptImmediateAutoplay, { once: true });
       audio.addEventListener("canplay", attemptImmediateAutoplay, { once: true });
       window.addEventListener("load", attemptImmediateAutoplay, { once: true });
     }
@@ -885,8 +973,11 @@
       }
 
       const rsvpCfg = CFG.coupleSection?.rsvpCta || {};
-      const formUrl = (rsvpCfg.googleFormUrl || "").trim();
-      const entryId = (rsvpCfg.googleFormEntryId || "entry.123456789").trim();
+      const formUrl = (
+        rsvpCfg.googleFormUrl ||
+        "https://docs.google.com/forms/d/e/1FAIpQLScXc6mUVfkYqprC9Sskd_aJoiaDlEGk6-k3PiS-6oiPsydbCg/formResponse"
+      ).trim();
+      const entryId = (rsvpCfg.googleFormEntryId || "entry.608976263").trim();
 
       submitBtn.disabled = true;
       submitBtn.textContent = "Sending...";

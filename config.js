@@ -131,9 +131,9 @@ window.WEDDING_CONFIG = {
     rsvpCta: {
       headline: "Please\nRSVP",
       subtext: "Add guest count here",
-      // Paste your Google Form URL (viewform or formResponse) and the guest count field entry ID (e.g. "entry.123456789")
-      googleFormUrl: "https://docs.google.com/forms/d/e/YOUR_GOOGLE_FORM_ID/formResponse",
-      googleFormEntryId: "entry.123456789",
+      // Connected Google Form URL and guest count field entry ID
+      googleFormUrl: "https://docs.google.com/forms/d/e/1FAIpQLScXc6mUVfkYqprC9Sskd_aJoiaDlEGk6-k3PiS-6oiPsydbCg/formResponse",
+      googleFormEntryId: "entry.608976263",
       ringImage: "assets/mandala-ring-rsvp.png",
       innerImage: "assets/mandala-inner-rsvp.png",
     },
