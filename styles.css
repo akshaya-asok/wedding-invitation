@@ -526,14 +526,47 @@ body {
   border-radius: 26px;
 }
 
+/* 2we: the FULL photo stays visible (scaled down, never cropped). Around it, a blurred,
+   saturated copy of the same photo forms an oval halo that dissolves into the olive-gold background. */
 .borderless-aesthetic-photo .framed-photo-inside-2 {
+  position: relative;
+  width: min(86vw, 460px);
+  aspect-ratio: 4 / 5;
   border: none;
-  border-radius: 50%;
-  background-color: transparent;
+  border-radius: 0;
+  overflow: visible;
+  background: transparent;
   box-shadow: none;
-  /* Oval mask: fully opaque core, feathered edge that melts into the background */
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 0%, #000 62%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0) 100%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 0%, #000 62%, rgba(0, 0, 0, 0.55) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+.borderless-aesthetic-photo .framed-photo-inside-2::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url("assets/2we.jpeg") center / cover no-repeat;
+  filter: blur(26px) saturate(1.25) brightness(0.95);
+  transform: scale(1.12);
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 0%, #000 52%, rgba(0, 0, 0, 0.6) 72%, rgba(0, 0, 0, 0) 100%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 0%, #000 52%, rgba(0, 0, 0, 0.6) 72%, rgba(0, 0, 0, 0) 100%);
+}
+
+.borderless-aesthetic-photo .framed-photo-inside-2 img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 70%;
+  height: auto;
+  max-width: none;
+  transform: translate(-50%, -50%);
+  /* very soft edge feather only (no cropping) so the sharp photo melts into the halo */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  mask-composite: intersect;
 }
 
 .framed-photo-inside-1 img,
@@ -1847,9 +1880,8 @@ body {
     border-radius: 14px;
   }
 
-  .borderless-aesthetic-photo,
   .borderless-aesthetic-photo .framed-photo-inside-2 {
-    border-radius: 22px;
+    width: min(92vw, 420px);
   }
 
   .invite-block {
